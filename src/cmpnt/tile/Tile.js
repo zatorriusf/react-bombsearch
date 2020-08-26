@@ -3,25 +3,21 @@ import './tile.scss';
 
 
 
-export default function Tile() {
+export default function Tile(props) {
 
-    const checkBox = useRef('');
-    const [cardBack,setCardBack] = useState('');
-    const updateCard = () =>{
-        console.log(checkBox.current.checked);
-        setCardBack(`I've been flipped`);
-        checkBox.current.disabled = true;
+    const tileBtn = useRef('');
+    const [btnTxt,setBtnTxt] = useState(props.cardFront);
+    const updateBtn = () =>{
+
+        setBtnTxt(props.cardBack);
+        props.updateGrid(tileBtn.current.id);
+        tileBtn.current.disabled = true;
+
     }
   return (
-    <div>
-      <label>
-        <input type="checkbox" ref={checkBox} onClick={updateCard}/>
-        <div className="card">
-          <div className="front"></div>
-          <div className="back" >{cardBack}</div>
-        </div>
-      </label>
-    </div>
+    <>
+      <button id={props.id} className ='tile-btn' ref = {tileBtn} onClick={updateBtn}>{btnTxt}</button>
+    </>
   );
 }
 

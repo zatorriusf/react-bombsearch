@@ -1,0 +1,14 @@
+.board{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    .row{
+        max-height: 2rem;
+        min-height: .5rem;
+        padding: 0 1rem;
+        display: flex;
+        align-items: stretch;
+    }
+}
