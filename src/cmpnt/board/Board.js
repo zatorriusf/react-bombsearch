@@ -1,15 +1,10 @@
-import React ,{useState} from "react";
+import React  from "react";
 import Tile from "../tile/Tile";
 import "./Board.scss";
 
-const defaultState = {
-    rows : 3,
-    cols : 3,
-    bombs : 1
-  }
 
-export default function Board() {
-    const [boardState, setBoardState] = useState(defaultState);
+
+export default function Board({cols,rows,bombs}) {
     const flippedCells = [];
     const updateGrid = (id) =>{
         const [row,col] = id.split('-');
@@ -19,7 +14,7 @@ export default function Board() {
         } else {
             flippedCells.push([row,col]);
             console.log(flippedCells);
-            if(flippedCells.length === (boardState.rows * boardState.cols) - boardState.bombs){
+            if(flippedCells.length === (rows * cols) - bombs){
                 console.log('you won!')
             }
         }
@@ -88,7 +83,7 @@ export default function Board() {
         placeMines(bombs);
         return grid
         }
-        const grid = genBoard(boardState.cols,boardState.rows,boardState.bombs);
+        const grid = genBoard(cols,rows,bombs);
         const board = grid.map((row,rowIndex) => {
            return (<div className='row'>
                {row.map((card,cardIndex) => <Tile cardBack={card} 
@@ -102,7 +97,6 @@ export default function Board() {
 
   return (
     <div className="Board">
-      <p>hi</p>
       {board}
     </div>
   );
