@@ -1,6 +1,8 @@
 import React  from "react";
 import Tile from "../tile/Tile";
 import "./Board.scss";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBomb,faFlag,faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
 
 
 
@@ -86,10 +88,12 @@ export default function Board({cols,rows,bombs}) {
         const grid = genBoard(cols,rows,bombs);
         const board = grid.map((row,rowIndex) => {
            return (<div className='row'>
-               {row.map((card,cardIndex) => <Tile cardBack={card} 
+               {row.map((card,cardIndex) => {
+                 const tileVal = card === 'B' ? <FontAwesomeIcon icon={faBomb} className='bomb'/>: card
+               return <Tile cardBack={tileVal} 
                                                   key={`${rowIndex}-${cardIndex}`} 
                                                   id={`${rowIndex}-${cardIndex}`}
-                                                  updateGrid = {updateGrid}/>)}
+                                                  updateGrid = {updateGrid}/>})}
             </div>)
         });
 
@@ -98,6 +102,9 @@ export default function Board({cols,rows,bombs}) {
   return (
     <div className="Board">
       {board}
+      <FontAwesomeIcon icon={faBomb} className='bomb'/>
+      <FontAwesomeIcon icon={faFlag} className='mark flag'/>
+      <FontAwesomeIcon icon={faQuestionCircle} className='mark question'/>
     </div>
   );
 }
