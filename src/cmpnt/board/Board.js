@@ -16,7 +16,6 @@ export default function Board({cols,rows,bombs}) {
     const updateGrid = (id) =>{
         const [row,col] = id.split('-').map((coord) => Number(coord));
         if(cellRefs[row][col].current.disabled){
-          console.log(cellRefs[row][col].current.id,' has already been disabled.')
           return;
         }
         cellRefs[row][col].current.disabled = true;
@@ -32,7 +31,6 @@ export default function Board({cols,rows,bombs}) {
         [row + 1,col + 1],
         ].filter(elm => {
           const [x,y] = elm;
-          //console.log(isValidCell(x,y) && !cellRefs[x][y].current.disabled);
           return isValidCell(x,y) && !cellRefs[x][y].current.disabled
         });
         
@@ -48,8 +46,6 @@ export default function Board({cols,rows,bombs}) {
               for(let cell of surroundingCells){
                 const[surRow,surCol] = cell;
                 if(isValidCell(surRow,surCol) && !cellRefs[surRow][surCol].current.disabled){
-                  
-                    console.log(cellRefs[surRow][surCol].current);
                     cellRefs[surRow][surCol].current.updateBtn();
                 }
               }
