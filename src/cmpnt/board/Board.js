@@ -1,4 +1,4 @@
-import React,{useRef,useEffect, createRef}  from "react";
+import React,{createRef}  from "react";
 import Tile from "../tile/Tile";
 import "./Board.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -71,57 +71,51 @@ export default function Board({cols,rows,bombs}) {
         }
         const grid= Array(rows).fill(null).map( () => Array(cols).fill(0));
         
-        
-        const randoCell = () => {
-            const mineX = Math.floor(Math.random() * cols);
-          const mineY = Math.floor(Math.random() * rows);
-          return [mineX,mineY]
-        }
-        const placeMines = (numMines) =>{
-            if(numMines === 0){
-          return;
-          }
-            //arr should be a two dimentional array will need to find random unfilled
-          let mineX,mineY;
-          
+        const bombPlacement = () =>{
+          const bombLocations = [];
           do{
-              [mineX,mineY] = randoCell();
-          } while( grid[mineX][mineY] === 'B');
-
-          const surroundingCells = [
-            [mineX - 1,mineY - 1],
-            [mineX - 1,mineY],
-            [mineX - 1,mineY + 1],
-            [mineX,mineY - 1],
-            [mineX ,mineY + 1],
-            [mineX + 1,mineY - 1],
-            [mineX + 1,mineY],
-            [mineX + 1,mineY + 1],
-            ]
-          
-          if(grid[mineX][mineY] !== 'B'){
-              //place bomb
-              grid[mineX][mineY] = 'B';
-            //increment value for surrounding cells
-            for(let cells of surroundingCells){
-                const [x,y] = cells
-              //verify in bounds
-              if(!isValidCell(x,y)){
-              continue;
-              }
-              //verify the cell isn't a bomb and add one to the value
-              if(grid[x][y] !=='B'){
-                  grid[x][y] +=1; 
-              }
+            const y = Math.floor(Math.random() * rows);
+            const x = Math.floor(Math.random() * cols);
+            if(!bombLocations.includes([y,x])){
+              bombLocations.push([y,x]);
             }
-            placeMines(numMines - 1);
-          }
+          } while(bombLocations.length !== bombs)
+          return bombLocations;
         }
-        placeMines(bombs);
+        const bombLoactions = bombPlacement();
+
+        for(const bomb of bombLoactions){
+          const [y,x] = bomb;
+          grid[y][x] = 'B';
+          const surroundingCells = [
+            [y - 1,x - 1],
+            [y - 1,x],
+            [y - 1,x + 1],
+            [y,x - 1],
+            [y ,x + 1],
+            [y + 1,x - 1],
+            [y + 1,x],
+            [y + 1,x + 1],
+            ].filter(elm => {
+              const [y,x] = elm;
+              return isValidCell(y,x) && grid[y][x] !== 'B' 
+            });
+
+            for(const cell of surroundingCells){
+              const [y,x] = cell;
+              grid[y][x]++;
+            }
+        }
         return grid
         }
         const grid = genBoard(cols,rows,bombs);
-        const board = grid.map((row,rowIndex) => {
+        
+
+    
+
+  return (
+    <div className="Board">
+      {grid.map((row,rowIndex) => {
            return (<div className='row'>
                {row.map((card,cardIndex) => {
                  
@@ -132,13 +126,7 @@ export default function Board({cols,rows,bombs}) {
                                                   updateGrid = {updateGrid}
                                                   ref={cellRefs[rowIndex][cardIndex]}/>})}
             </div>)
-        });
-
-    
-
-  return (
-    <div className="Board">
-      {board}
+        })}
       <FontAwesomeIcon icon={faBomb} className='bomb'/>
       <FontAwesomeIcon icon={faFlag} className='mark flag'/>
       <FontAwesomeIcon icon={faQuestionCircle} className='mark question'/>

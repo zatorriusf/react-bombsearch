@@ -1,6 +1,6 @@
 .board{
     display: flex;
-    width: 100%;
+    width: 100vw;
     justify-content: center;
     align-items: center;
     flex-direction: column;
@@ -9,6 +9,7 @@
         min-height: .5rem;
         padding: 0 1rem;
         display: flex;
+        flex-wrap: nowrap;
         align-items: stretch;
     }
 }

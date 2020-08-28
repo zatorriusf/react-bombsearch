@@ -1,0 +1,30 @@
+.new-game{
+    display: flex;
+    flex-direction: column;
+    ul{
+        display: flex;
+        justify-content: space-evenly;
+        width: 50vw;
+        margin: auto;
+        
+        li{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            list-style: none;
+            font-size: 2em;
+            font-weight: 700;
+            color: #c3c3c3;
+            border: cadetblue 1px solid;
+            border-radius: .5em;
+            width: 20%;
+            height: 5em;
+            text-align: center;
+            background-color: cadetblue;
+            &:hover{
+                transform: scale(1.1,1.1);
+                filter: brightness(125%);
+            }
+        }
+    }
+}

@@ -1,7 +1,8 @@
 import React,{useState} from 'react';
 import Board from './cmpnt/board/Board';
-import './App.scss';
 import Pause from './cmpnt/Pause/Pause';
+import NewGame from './cmpnt/NewGame/NewGame'
+import './App.scss';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPauseCircle } from "@fortawesome/free-solid-svg-icons";
 
@@ -14,18 +15,25 @@ const defaultBoardState = {
 function App() {
   const [boardState, setBoardState] = useState(defaultBoardState);
   const [paused, setPaused] = useState(false);
+  const [newGame, setNewGame] = useState(true);
+
   const handlePause = () =>{
     setPaused(!paused);
   }
+  const startGame = (levelObj) =>{
+    setBoardState(levelObj);
+    setNewGame(false);
+  }
   return (
     <div className="App">
-      {!paused && <div className='controls'>
+      {newGame && <NewGame startGame={startGame}/>}
+      {!paused && !newGame && <div className='controls'>
         <FontAwesomeIcon icon={faPauseCircle} onClick={handlePause}/>
       </div>}
-      {!paused && <Board rows={boardState.rows}
+      {!paused && !newGame && <Board rows={boardState.rows}
              cols={boardState.cols}
              bombs={boardState.bombs}/>}
-      {(paused) &&<Pause handlePause={handlePause}/>}
+      {(paused) && !newGame &&<Pause handlePause={handlePause}/>}
     </div>
   );
 }
