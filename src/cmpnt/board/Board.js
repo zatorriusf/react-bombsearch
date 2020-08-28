@@ -79,7 +79,7 @@ export default function Board({cols,rows,bombs}) {
             if(!bombLocations.includes([y,x])){
               bombLocations.push([y,x]);
             }
-          } while(bombLocations.length !== bombs)
+          } while(bombLocations.length < bombs)
           return bombLocations;
         }
         const bombLoactions = bombPlacement();
