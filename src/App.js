@@ -20,6 +20,10 @@ function App() {
   const handlePause = () =>{
     setPaused(!paused);
   }
+  const handleNewGame = () =>{
+    setPaused(!paused);
+    setNewGame(true);
+  }
   const startGame = (levelObj) =>{
     setBoardState(levelObj);
     setNewGame(false);
@@ -33,7 +37,7 @@ function App() {
       {!paused && !newGame && <Board rows={boardState.rows}
              cols={boardState.cols}
              bombs={boardState.bombs}/>}
-      {(paused) && !newGame &&<Pause handlePause={handlePause}/>}
+      {(paused) && !newGame &&<Pause handlePause={handlePause} handleNewGame={handleNewGame}/>}
     </div>
   );
 }
